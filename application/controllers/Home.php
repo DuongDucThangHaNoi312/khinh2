@@ -207,6 +207,13 @@ public function deleteData($idNhanDuoc)
 
 }
 
+
+
+
+
+
+
+
 // add by ajax
 public function ajaxAdd() 	 	
 {
