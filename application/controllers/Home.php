@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 include 'UploadHandler.php';
- 
+
 class Home extends CI_Controller {
 
 	public function __construct()
@@ -207,13 +207,6 @@ public function deleteData($idNhanDuoc)
 
 }
 
-
-
-
-
-
-
-
 // add by ajax
 public function ajaxAdd() 	 	
 {
@@ -224,7 +217,7 @@ public function ajaxAdd()
 	$linkfb = $this->input->post('linkfb');
 	$sodonhang = $this->input->post('sodonhang');
 	// $anhavatar = base_url()."fileUpload/" .basename($_FILES['anhavatar']['name']);
-	$anhavatar = 'http://localhost/khinh2/fileUpload/sanchez.jpg';
+	$anhavatar = $this->input->post('anhavatar');
 
 //goi model
 	$this->load->model('nhansu_model');
@@ -237,10 +230,9 @@ public function ajaxAdd()
 	}
 
 }
-public function  UploadFile()
+public function  uploadfile()
 {
-$uploadfile = new UploadHandler();
-
+	$uploadfile = new UploadHandler();
 
 } 
 
