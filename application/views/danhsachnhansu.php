@@ -20,14 +20,14 @@
 	</div>
 
 	<div class="container">
-		<div class="row addByAjax">
+		<div class="row addByAjax" >
 
 			
 
 			<?php foreach ($mangketqua as $value): ?>
 
 				<div class="col-sm-4 " >
-					<div class="card">
+					<div class="card" style="margin: 7px">
 
 						<img class="card-img-top img-fluid 	" src="<?= $value['anhavatar'] ?>" alt="Card image"  >
 
@@ -70,8 +70,8 @@
 			<!-- <form class="col-md-4 offset-md-4" method="post" action="http://localhost/khinh2/index.php/Home/add" enctype="multipart/form-data"> -->
 				<div class="form-group">
 					<label for="anhavatar">Avatar</label>
-					<input type="file" class="form-control" id="anhavatar" aria-describedby="" placeholder="" name="anhavatar">
-
+					<!-- <input type="file" class="form-control" id="anhavatar" aria-describedby="" placeholder="" name="anhavatar"> -->
+					<input type="file" class="form-control" id="anhavatar" aria-describedby="" placeholder="" name="files[]">
 				</div>
 				<div class="form-group">
 					<label for="ten">Tên</label>
@@ -106,11 +106,33 @@
 
 
 
-			<script type="text/javascript">
+			<script >
+				//load code
+				$( document ).ready(function() {
+					console.log( "document loaded" );
 
-				$('.btnAjax').click(function(event) {
-					/* Act on the event */
-					$.ajax({
+
+
+
+
+
+					duongdan  = '<?php echo base_url() ?>';
+					$('#anhavatar').fileupload({
+						url: duongdan + 'index.php/Home/uploadfile',
+						dataType: 'json',
+						done: function (e, data) {
+							$.each(data.result.files, function (index, file) {
+							// console.log(file.url)	
+							tenFIle = file.url;
+						});
+
+						}
+					// load uploadfile();
+				})
+
+					$('.btnAjax').click(function(event) {
+						/* Act on the event */
+						$.ajax({
  				// đường dẫn đến action
  				url: 'Home/ajaxAdd',
  				type: 'POST',
@@ -119,26 +141,27 @@
  					ten : $('#ten').val(),
  					tuoi : $('#tuoi').val(),
  					sdt : $('#sdt').val(),
+ 					anhavatar : tenFIle,
  					sodonhang : $('#sodonhang').val(),
  					linkfb : $('#linkfb').val(),
 
  				},
  			})
 
-					.done(function() {
-						console.log("success");
-					})
-					.fail(function() {
-						console.log("error");
-					})
-					.always(function() {
-						console.log("complete");
+						.done(function() {
+							console.log("success");
+						})
+						.fail(function() {
+							console.log("error");
+						})
+						.always(function() {
+							console.log("complete");
 
                      // thêm nội dung bằng append
 
                      noidung = ' <div class="col-sm-4 " >';
-                     noidung += '<div class="card">';
-                     noidung += '<img class="card-img-top img-fluid" src="http://localhost/khinh2/fileUpload/sanchez.jpg" alt="Card image" >';
+                     noidung += '<div class="card" style="margin: 7px">';
+                     noidung += '<img class="card-img-top img-fluid" src="'+tenFIle+'" alt="Card image" >';
                      noidung += '<div class="card-body" >';
                      noidung += '<h4 class="card-title ten" ><b>'+$('#ten').val()+'</b></h4>';
                      noidung += '<p class="card-text tuoi">Tuổi : <b>'+ $('#tuoi').val()+'</b></p>';
@@ -154,11 +177,8 @@
                      noidung += ' </div>';
                      noidung += ' </div>';
 
-
-
-
                      $('.addByAjax').append(noidung);
-
+                     
                       //reset noi dung 
                       $('#ten').val('');
                       $('#tuoi').val('');
@@ -167,23 +187,24 @@
                       $('#linkfb').val('');
 
                   });
-				});
+					});
+
+
+
+//end load code
+});
+</script>
 
 
 
 
-			</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
 
 
 
-
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js"></script>
-			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
-
-
-
-			<script type="text/javascript" src="<?php echo base_url() ?>/jQueryUpload/js/vendor/jquery.ui.widget.js"></script>
-			<script type="text/javascript"  src="<?php echo base_url() ?>/jQueryUpload/js/jquery.iframe-transport.js"></script>
-			<script type="text/javascript" src="<?php echo base_url() ?>/jQueryUpload/js/jquery.fileupload.js"> </script>
-		</body>
-		</html>
+<script type="text/javascript" src="<?php echo base_url() ?>/jQueryUpload/js/vendor/jquery.ui.widget.js"></script>
+<script type="text/javascript"  src="<?php echo base_url() ?>/jQueryUpload/js/jquery.iframe-transport.js"></script>
+<script type="text/javascript" src="<?php echo base_url() ?>/jQueryUpload/js/jquery.fileupload.js"> </script>
+</body>
+</html>
